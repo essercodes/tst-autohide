@@ -11,7 +11,7 @@
 }
 
 #main-window #appcontent {
-  margin-right: var(--TST-window-size);
+  margin-left: var(--TST-window-size);
   transition: var(--TST-transition-time);
 }
 
@@ -22,7 +22,7 @@
   min-width: 0px !important;
   width: var(--TST-window-size) !important;
   height: calc(100% - 41px);
-  right: 0;
+  left: 0;
   transition: var(--TST-transition-time);
   z-index: 1;
   margin: 0;
@@ -36,7 +36,7 @@
 /* When hidden */
 #main-window[inFullscreen] #sidebar-box[hidden="true"] ~ #appcontent,
 #main-window #sidebar-box[hidden="true"] ~ #appcontent {
-  margin-right: 0;
+  margin-left: 0;
   transition: var(--TST-transition-time);
 }
 #main-window[inFullscreen] #sidebar-box[hidden="true"],
@@ -47,7 +47,7 @@
 
 /* Completely (almost) hide in fullscreen */
 #main-window[inFullscreen] #appcontent {
-  margin-right: var(--TST-fullscreen-size);
+  margin-left: var(--TST-fullscreen-size);
   transition: var(--TST-transition-time);
 }
 #main-window[inFullscreen] #sidebar-box,
@@ -75,6 +75,6 @@
   transition: 0s;
 }
 #main-window[inDOMFullscreen] #appcontent {
-  margin-right: 0;
+  margin-left: 0;
   transition: 0s;
 }
