@@ -1,80 +1,114 @@
+/*
+** Full Tree Style Tabs userChrome.css
+**
+** Also, TST user style sheet at bottom of this document.
+*/
+
 :root {
-  --TST-window-size: 42px;
-  --TST-fullscreen-size: 42px;
+  --TST-minimized-size: 40px;
   --TST-expanded-size: 300px;
   --TST-transition-time: .3s ease-in-out;
 }
 
-#sidebar-header {
-	width: var(--TST-expanded-size);
-	background-color: var(--sidebar-background-color);
+/* FULL SCREEN */
+#main-window[inFullscreen] {
+    --TST-minimized-size: 10px;
 }
 
-#main-window #appcontent {
-  margin-right: var(--TST-window-size);
-  transition: var(--TST-transition-time);
+/* VIDEO FULLSCREEN */
+#main-window[inDOMFullscreen] {
+    --TST-minimized-size: 0px;
 }
 
-#main-window #sidebar,
-#main-window #sidebar-box {
-	position: fixed;
-  display: block;
-  min-width: 0px !important;
-  width: var(--TST-window-size) !important;
-  height: calc(100% - 41px);
-  right: 0;
-  transition: var(--TST-transition-time);
-  z-index: 1;
-  margin: 0;
-  scrollbar-width: none;
+/* put TST header on bottom */
+#sidebar-box {
+  flex-direction: column-reverse;
 }
 
-#main-window #sidebar {
-  height: 100%;
+/* 
+** swap between normal and TST when open; 
+** Only works in Firefox if layout.css.has-selector.enabled is set to true in about:config . 
+*/
+body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-action][checked=true]:not([hidden=true])) {
+
+  /* 
+  ** Include the close/minimize/expand buttons that are normally in the tab bar on MacOS.
+  ** Must include flexable space.
+  */
+  #TabsToolbar,
+  #TabsToolbar > * {
+    min-height: 0 !important;;
+    max-height: 0 !important;
+  }
+  #TabsToolbar > .titlebar-buttonbox-container {
+    display: block;
+    position: absolute;
+    top: 12px;
+    left: 0px;
+  }
+
+  /* add space for fixed sidebar */
+  #tabbrowser-tabbox {
+    /* on left */
+    margin-left: var(--TST-minimized-size) !important;
+  }
+   #sidebar-box[positionend=""] ~ #tabbrowser-tabbox {
+    /* on right */
+    margin-left: 0 !important;
+    margin-right: var(--TST-minimized-size) !important;
+  }
 }
 
-/* When hidden */
-#main-window[inFullscreen] #sidebar-box[hidden="true"] ~ #appcontent,
-#main-window #sidebar-box[hidden="true"] ~ #appcontent {
-  margin-right: 0;
-  transition: var(--TST-transition-time);
-}
-#main-window[inFullscreen] #sidebar-box[hidden="true"],
-#main-window #sidebar-box[hidden="true"] {
-  width: 0 !important;
-  transition: var(--TST-transition-time);
+/* Collapse in default state and add transition */
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]{
+  /* on left */
+  left: 0;
+  border-right: 1px solid #0c0c0d;
+
+  &[positionend=""]{
+    /* on right */
+    left: inherit;
+    right: 0;
+    border-right: inherit;
+    border-left: 1px solid #0c0c0d;
+  }
+
+  height: 97.1%;  /* full window minus topbar */
+  position: fixed;
+  overflow: hidden;
+  min-width: var(--TST-minimized-size) !important;
+  max-width: var(--TST-minimized-size) !important;
+  transition: var(--TST-transition-time) !important;
+  z-index: 3;
+
+  /* Expand on hover */
+  &:hover,
+  & #sidebar {
+    min-width: var(--TST-expanded-size) !important;
+    max-width: var(--TST-expanded-size) !important;
+    z-index: 4;
+  }
 }
 
-/* Completely (almost) hide in fullscreen */
-#main-window[inFullscreen] #appcontent {
-  margin-right: var(--TST-fullscreen-size);
-  transition: var(--TST-transition-time);
+/* Add below to TST user style sheet and uncomment */
+/*Put closebox left side, even if I choose "Left side" style*/
+/*
+:root.left tab-item tab-twisty {
+  order: 10000;
 }
-#main-window[inFullscreen] #sidebar-box,
-#main-window[inFullscreen] #sidebar {
-  width: var(--TST-fullscreen-size) !important;
-  transition: var(--TST-transition-time);
+:root.left tab-item tab-closebox {
+  order: -1;
 }
+*/
 
-/* Show on hover */
-#main-window #sidebar-box:hover,
-#main-window[inFullscreen] #sidebar-box:hover,
-#main-window #sidebar-box:hover #sidebar,
-#main-window[inFullscreen] #sidebar-box:hover #sidebar {
-  width: var(--TST-expanded-size) !important;
-  transition: var(--TST-transition-time);
+/*Put closebox right side, even if I choose "Right side" style #138*/
+/*
+:root.right tab-item tab-twisty {
+  order: -1;
 }
-#main-window #sidebar-box:hover #sidebar:before {
-  transform: translateX(-100%);
+:root.right tab-item tab-closebox {
+  order: 10000;
 }
+*/
 
-/* Video/Content Fullscreen */
-#main-window[inDOMFullscreen] #sidebar-box,
-#main-window[inDOMFullscreen] #sidebar {
-  width: 0 !important;
-  transition: 0s;
-}
-#main-window[inDOMFullscreen] #appcontent {
-  margin-right: 0;
-  transition: 0s;
-}
+/* Also see: https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules */
