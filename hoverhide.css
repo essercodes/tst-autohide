@@ -20,26 +20,17 @@
     --TST-minimized-size: 0px;
 }
 
-/* put TST header on bottom */
-#sidebar-box {
-  flex-direction: column-reverse;
-}
-
 /* 
 ** swap between normal and TST when open; 
 ** Only works in Firefox if layout.css.has-selector.enabled is set to true in about:config . 
 */
 body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-action][checked=true]:not([hidden=true])) {
-
-  /* 
-  ** Include the close/minimize/expand buttons that are normally in the tab bar on MacOS.
-  ** Must include flexable space.
-  */
   #TabsToolbar,
   #TabsToolbar > * {
-    min-height: 0 !important;;
+    min-height: 0 !important;
     max-height: 0 !important;
   }
+
   #TabsToolbar > .titlebar-buttonbox-container {
     display: block;
     position: absolute;
@@ -58,12 +49,14 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
     margin-right: var(--TST-minimized-size) !important;
   }
 }
+    
 
 /* Collapse in default state and add transition */
 #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]{
   /* on left */
   left: 0;
   border-right: 1px solid #0c0c0d;
+  
 
   &[positionend]{
     /* on right */
@@ -72,25 +65,30 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
     border-right: inherit;
     border-left: 1px solid #0c0c0d;
   }
+  
+  /* full window minus topbar */
+  height: calc(100% - 40px) !important; 
+  
+  /* put TST header on bottom */
+  flex-direction: column-reverse; 
 
-  height: 97.1%;  /* full window minus topbar */
   position: fixed;
-  overflow: hidden;
+  overflow: hidden; 
   min-width: var(--TST-minimized-size) !important;
   max-width: var(--TST-minimized-size) !important;
   transition: var(--TST-transition-time) !important;
-  z-index: 3;
+  z-index: 3 !important;
 
   /* Expand on hover */
   &:hover,
   & #sidebar {
     min-width: var(--TST-expanded-size) !important;
     max-width: var(--TST-expanded-size) !important;
-    z-index: 4;
+    z-index: 4 !important;
   }
 }
 
-/* Add below to TST user style sheet and uncomment */
+/* Add to TST user style sheet and uncomment */
 /*Put closebox left side, even if I choose "Left side" style*/
 /*
 :root.left tab-item tab-twisty {
