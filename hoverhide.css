@@ -52,7 +52,7 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
     /* on left */
     margin-left: var(--TST-minimized-size) !important;
   }
-   #sidebar-box[positionend=""] ~ #tabbrowser-tabbox {
+   #sidebar-box[positionend] ~ #tabbrowser-tabbox {
     /* on right */
     margin-left: 0 !important;
     margin-right: var(--TST-minimized-size) !important;
@@ -65,7 +65,7 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
   left: 0;
   border-right: 1px solid #0c0c0d;
 
-  &[positionend=""]{
+  &[positionend]{
     /* on right */
     left: inherit;
     right: 0;
