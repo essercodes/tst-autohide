@@ -9,12 +9,17 @@
   --TST-expanded-size: 300px;
   --TST-transition-time: .3s ease-in-out;
   --TST-height: calc(100% - 40px) !important;
+  --TST-title-margin-left: 80px;
 }
 
 /* FULL SCREEN */
 #main-window[inFullscreen] {
     --TST-minimized-size: 10px;
-    --TST-height: 100% !important;
+    --TST-title-margin-left: unset;
+    /* Windows (not MacOS) */
+    @media not screen and (-webkit-max-device-pixel-ratio:1) and (min-color-index:0) {
+      --TST-height: 100% !important;
+    }
 }
 
 /* VIDEO FULLSCREEN */
@@ -38,26 +43,31 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
     position: absolute;
   }
   
-  /* Windows */
-  @supports not -moz-bool-pref("layout.css.osx-font-smoothing.enabled"){
+  /* Windows (not MacOS) */
+  @media not screen and (-webkit-max-device-pixel-ratio:1) and (min-color-index:0) {
     #TabsToolbar > .titlebar-buttonbox-container {
       top: 0px;
       right: 0px;
     }
     /* Adding empty space for buttons */
     #nav-bar {
-	     margin-right: 125px;
+	     margin-right: 125px !important;
     }
+    
     .titlebar-button {
       padding: 15px
     }
   }
   
   /* MacOS */
-  @supports -moz-bool-pref("layout.css.osx-font-smoothing.enabled"){
+  @media screen and (-webkit-max-device-pixel-ratio:1) and (min-color-index:0) {
     #TabsToolbar > .titlebar-buttonbox-container {
       top: 12px;
       left: 0px;
+    }
+    
+    #nav-bar-customization-target {
+      margin-left: var(--TST-title-margin-left);
     }
   }
 
