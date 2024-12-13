@@ -8,11 +8,13 @@
   --TST-minimized-size: 40px;
   --TST-expanded-size: 300px;
   --TST-transition-time: .3s ease-in-out;
+  --TST-height: calc(100% - 40px) !important;
 }
 
 /* FULL SCREEN */
 #main-window[inFullscreen] {
     --TST-minimized-size: 10px;
+    --TST-height: 100% !important;
 }
 
 /* VIDEO FULLSCREEN */
@@ -30,12 +32,33 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
     min-height: 0 !important;
     max-height: 0 !important;
   }
-
+  
   #TabsToolbar > .titlebar-buttonbox-container {
     display: block;
     position: absolute;
-    top: 12px;
-    left: 0px;
+  }
+  
+  /* Windows */
+  @supports not -moz-bool-pref("layout.css.osx-font-smoothing.enabled"){
+    #TabsToolbar > .titlebar-buttonbox-container {
+      top: 0px;
+      right: 0px;
+    }
+    /* Adding empty space for buttons */
+    #nav-bar {
+	     margin-right: 125px;
+    }
+    .titlebar-button {
+      padding: 15px
+    }
+  }
+  
+  /* MacOS */
+  @supports -moz-bool-pref("layout.css.osx-font-smoothing.enabled"){
+    #TabsToolbar > .titlebar-buttonbox-container {
+      top: 12px;
+      left: 0px;
+    }
   }
 
   /* add space for fixed sidebar */
@@ -67,7 +90,7 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
   }
   
   /* full window minus topbar */
-  height: calc(100% - 40px) !important; 
+  height: var(--TST-height) !important; 
   
   /* put TST header on bottom */
   flex-direction: column-reverse; 
