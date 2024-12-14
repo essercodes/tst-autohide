@@ -1,7 +1,5 @@
 /*
 ** Full Tree Style Tabs userChrome.css
-**
-** Also, TST user style sheet at bottom of this document.
 */
 
 :root {
@@ -119,26 +117,6 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
     max-width: var(--TST-expanded-size) !important;
     z-index: 4 !important;
   }
-}
-
-/* Add to TST user style sheet and uncomment */
-/*Put closebox left side, even if I choose "Left side" style*/
-/*
-:root.left tab-item tab-twisty {
-  order: 10000;
-}
-:root.left tab-item tab-closebox {
-  order: -1;
-}
-*/
-
-/*Put closebox right side, even if I choose "Right side" style #138*/
-/*
-:root.right tab-item tab-twisty {
-  order: -1;
-}
-:root.right tab-item tab-closebox {
-  order: 10000;
 }
 */
 
