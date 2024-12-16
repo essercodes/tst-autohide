@@ -1,0 +1,15 @@
+/*Put closebox left side, even if I choose "Left side" style*/
+:root.left tab-item tab-twisty {
+  order: 10000;
+}
+:root.left tab-item tab-closebox {
+  order: -1;
+}
+
+/*Put closebox right side, even if I choose "Right side" style #138*/
+:root.right tab-item tab-twisty {
+  order: -1;
+}
+:root.right tab-item tab-closebox {
+  order: 10000;
+}

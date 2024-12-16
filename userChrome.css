@@ -8,16 +8,28 @@
   --TST-minimized-size: 40px;
   --TST-expanded-size: 300px;
   --TST-transition-time: .3s ease-in-out;
+  --titlebar-height: 40px;
+  --bookmarkbar-height: 0px;
+  --TST-title-margin-left: 80px;
 }
 
 /* FULL SCREEN */
 #main-window[inFullscreen] {
     --TST-minimized-size: 10px;
+    --TST-title-margin-left: unset;
+    /* Windows (not MacOS) */
+    @media not screen and (-webkit-max-device-pixel-ratio:1) and (min-color-index:0) {
+      --titlebar-height: 0;
+    }
 }
 
 /* VIDEO FULLSCREEN */
 #main-window[inDOMFullscreen] {
     --TST-minimized-size: 0px;
+}
+
+:root:has(#PersonalToolbar[collapsed="false"])  {
+   --bookmarkbar-height: 28.2px;
 }
 
 /* 
@@ -30,12 +42,38 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
     min-height: 0 !important;
     max-height: 0 !important;
   }
-
+  
   #TabsToolbar > .titlebar-buttonbox-container {
     display: block;
     position: absolute;
-    top: 12px;
-    left: 0px;
+  }
+  
+  /* Windows (not MacOS) */
+  @media not screen and (-webkit-max-device-pixel-ratio:1) and (min-color-index:0) {
+    #TabsToolbar > .titlebar-buttonbox-container {
+      top: 0px;
+      right: 0px;
+    }
+    /* Adding empty space for buttons */
+    #nav-bar {
+	     margin-right: 125px !important;
+    }
+    
+    .titlebar-button {
+      padding: 15px !important;
+    }
+  }
+  
+  /* MacOS */
+  @media screen and (-webkit-max-device-pixel-ratio:1) and (min-color-index:0) {
+    #TabsToolbar > .titlebar-buttonbox-container {
+      top: 12px;
+      left: 0px;
+    }
+    
+    #nav-bar-customization-target {
+      margin-left: var(--TST-title-margin-left);
+    }
   }
 
   /* add space for fixed sidebar */
@@ -67,7 +105,11 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
   }
   
   /* full window minus topbar */
-  height: calc(100% - 40px) !important; 
+  height: calc(
+    100% 
+    - var(--titlebar-height) 
+    - var(--bookmarkbar-height)
+  ) !important; 
   
   /* put TST header on bottom */
   flex-direction: column-reverse; 
@@ -76,37 +118,13 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
   overflow: hidden; 
   min-width: var(--TST-minimized-size) !important;
   max-width: var(--TST-minimized-size) !important;
-  transition: var(--TST-transition-time) !important;
-  z-index: 3 !important;
+  transition: all var(--TST-transition-time);
+  z-index: 4 !important;
 
   /* Expand on hover */
   &:hover,
   & #sidebar {
     min-width: var(--TST-expanded-size) !important;
     max-width: var(--TST-expanded-size) !important;
-    z-index: 4 !important;
   }
 }
-
-/* Add to TST user style sheet and uncomment */
-/*Put closebox left side, even if I choose "Left side" style*/
-/*
-:root.left tab-item tab-twisty {
-  order: 10000;
-}
-:root.left tab-item tab-closebox {
-  order: -1;
-}
-*/
-
-/*Put closebox right side, even if I choose "Right side" style #138*/
-/*
-:root.right tab-item tab-twisty {
-  order: -1;
-}
-:root.right tab-item tab-closebox {
-  order: 10000;
-}
-*/
-
-/* Also see: https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules */
