@@ -3,8 +3,8 @@
 */
 
 :root {
-  --TST-minimized-size: 2svw;
-  --TST-expanded-size: 20svw;
+  --TST-minimized-size: max(2svw, 20px);
+  --TST-expanded-size: max(20svw, 350px);
   --TST-transition-time: .3s ease-in-out;
   --titlebar-height: 40px;
   --bookmarkbar-height: 0px;
