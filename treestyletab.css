@@ -13,3 +13,7 @@
 :root.right tab-item tab-closebox {
   order: 10000;
 }
+
+tab-item tab-twisty {
+  transform: scaleX(-1);
+}
