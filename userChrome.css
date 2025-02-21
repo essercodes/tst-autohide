@@ -1,12 +1,10 @@
 /*
 ** Full Tree Style Tabs userChrome.css
-**
-** Also, TST user style sheet at bottom of this document.
 */
 
 :root {
-  --TST-minimized-size: 40px;
-  --TST-expanded-size: 300px;
+  --TST-minimized-size: max(2svw, 20px);
+  --TST-expanded-size: max(20svw, 350px);
   --TST-transition-time: .3s ease-in-out;
   --titlebar-height: 40px;
   --bookmarkbar-height: 0px;
@@ -15,10 +13,10 @@
 
 /* FULL SCREEN */
 #main-window[inFullscreen] {
-    --TST-minimized-size: 10px;
+    --TST-minimized-size: 0.5svw;
     --TST-title-margin-left: unset;
     /* Windows (not MacOS) */
-    @media not screen and (-webkit-max-device-pixel-ratio:1) and (min-color-index:0) {
+    &:not([data-l10n-id*="mac"]) {
       --titlebar-height: 0;
     }
 }
@@ -28,6 +26,7 @@
     --TST-minimized-size: 0px;
 }
 
+/* Bookmark bar Visible */
 :root:has(#PersonalToolbar[collapsed="false"])  {
    --bookmarkbar-height: 28.2px;
 }
@@ -36,7 +35,39 @@
 ** swap between normal and TST when open; 
 ** Only works in Firefox if layout.css.has-selector.enabled is set to true in about:config . 
 */
-body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-action][checked=true]:not([hidden=true])) {
+/* Windows */
+#main-window:not([data-l10n-id*="mac"])
+:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-action][checked=true]:not([hidden=true])) {
+  #TabsToolbar > .titlebar-buttonbox-container {
+    top: 0px;
+    right: 0px;
+  }
+  /* Adding empty space for buttons */
+  #nav-bar {
+    margin-right: 125px !important;
+  }
+
+  .titlebar-button {
+    padding: 15px !important;
+  }
+}
+
+/* MacOS */
+#main-window[data-l10n-id*="mac"]
+:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-action][checked=true]:not([hidden=true])) {
+  #TabsToolbar > .titlebar-buttonbox-container {
+    top: 12px;
+    left: 0px;
+  }
+  #nav-bar-customization-target {
+    margin-left: var(--TST-title-margin-left);
+  } 
+}
+
+
+/* MacOS and Windows */
+#main-window
+:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-action][checked=true]:not([hidden=true])) {
   #TabsToolbar,
   #TabsToolbar > * {
     min-height: 0 !important;
@@ -46,34 +77,6 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
   #TabsToolbar > .titlebar-buttonbox-container {
     display: block;
     position: absolute;
-  }
-  
-  /* Windows (not MacOS) */
-  @media not screen and (-webkit-max-device-pixel-ratio:1) and (min-color-index:0) {
-    #TabsToolbar > .titlebar-buttonbox-container {
-      top: 0px;
-      right: 0px;
-    }
-    /* Adding empty space for buttons */
-    #nav-bar {
-	     margin-right: 125px !important;
-    }
-    
-    .titlebar-button {
-      padding: 15px !important;
-    }
-  }
-  
-  /* MacOS */
-  @media screen and (-webkit-max-device-pixel-ratio:1) and (min-color-index:0) {
-    #TabsToolbar > .titlebar-buttonbox-container {
-      top: 12px;
-      left: 0px;
-    }
-    
-    #nav-bar-customization-target {
-      margin-left: var(--TST-title-margin-left);
-    }
   }
 
   /* add space for fixed sidebar */
@@ -105,20 +108,17 @@ body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-acti
   }
   
   /* full window minus topbar */
-  height: calc(
-    100% 
-    - var(--titlebar-height) 
-    - var(--bookmarkbar-height)
-  ) !important; 
+  height: calc(100% - var(--titlebar-height)) !important; 
   
   /* put TST header on bottom */
   flex-direction: column-reverse; 
-
+  
   position: fixed;
   overflow: hidden; 
   min-width: var(--TST-minimized-size) !important;
   max-width: var(--TST-minimized-size) !important;
-  transition: all var(--TST-transition-time);
+  transition: var(--TST-transition-time);
+  transition-property: min-width, max-width;
   z-index: 4 !important;
 
   /* Expand on hover */
